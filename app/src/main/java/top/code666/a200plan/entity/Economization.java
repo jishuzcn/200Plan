@@ -9,6 +9,7 @@ import java.math.BigDecimal;
  * Created by code666 on 2017/11/20.
  */
 
+//第二次更改后 无用的实体类
 public class Economization implements Parcelable {
     private int id;
     private String title,time;

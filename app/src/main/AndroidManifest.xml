@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="top.code666.a200plan">
 
     <application
@@ -16,7 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HomeActivity"></activity>
+        <activity android:name=".activity.BaseActivity" />
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.ExpensesActivity" />
+        <activity android:name=".activity.PlanActivity"></activity>
     </application>
 
 </manifest>

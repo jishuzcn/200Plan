@@ -31,6 +31,68 @@
             android:layout_marginRight="40dp"
             app:fabSize="normal"
             android:src="@mipmap/add"/>
+        <LinearLayout
+            android:id="@+id/home_ll"
+            android:layout_below="@id/home_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1234.00"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本月支出"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2413.03"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本月收入"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/timeline_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/home_ll"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:listSelector="@color/transparent"
+            android:cacheColorHint="@color/transparent">
+
+        </ListView>
+        
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

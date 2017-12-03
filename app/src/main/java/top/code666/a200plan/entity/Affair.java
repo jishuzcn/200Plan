@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by code666 on 2017/11/20.
  */
-
+//事件实体类--------------------------已废弃
 public class Affair implements Parcelable {
     private int id;
     private String content,time,name,tag;

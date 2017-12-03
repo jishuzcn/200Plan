@@ -5,4 +5,11 @@
     <color name="colorAccent">#009966</color>
     <color name="colorText">#e19e9999</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorDialogTv">#993300</color>
+    <color name="homeDateColor">#e8232323</color>
+    <color name="homeTitleColor">#009966</color>
+    <color name="homeDescriptionColor">#d8cc9747</color>
+    <color name="transparent">#00000000</color>
+    <color name="home_lv_bgColor">#45c14f</color>
+    <color name="plan_top_bg">#cf012b51</color>
 </resources>

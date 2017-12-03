@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="theme">
         <attr name="appbg" format="reference"/>
+        <attr name="item_offset" format="dimension"/>
     </declare-styleable>
 </resources>

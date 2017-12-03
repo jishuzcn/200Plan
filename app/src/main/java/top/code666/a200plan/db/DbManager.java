@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
+import top.code666.a200plan.entity.Cates;
 import top.code666.a200plan.entity.Economization;
 import top.code666.a200plan.entity.Expenses;
 
@@ -22,7 +24,7 @@ public class DbManager {
     private SQLiteDatabase db;
     private static DbManager instance = null;
 
-    public DbManager(Context context){
+    private DbManager(Context context){
             dbHelper = new DbHelper(context);
             db = dbHelper.getReadableDatabase();
     }
@@ -32,6 +34,34 @@ public class DbManager {
             instance = new DbManager(context);
         }
         return instance;
+    }
+
+    /*
+    * 获取所有分类表总数
+    */
+    public int  getCatesCount(){
+        Cursor cursor = db.query(DbHelper.TABLE_CATES,null,null,null,null,null,null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    /*
+    * 获取分类表所有信息
+    */
+    public ArrayList<Cates> getAllCates(){
+        ArrayList<Cates> cates = new ArrayList<>();
+        Cursor cursor = db.query(DbHelper.TABLE_CATES,null,null,null,null,null,null);
+        if(cursor.moveToFirst()){
+            do {
+                Cates c = new Cates();
+                c.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.COLUMNS_ID)));
+                c.setImageSrc(cursor.getInt(cursor.getColumnIndex(DbHelper.COLUMNS_IMAGE)));
+                c.setName(cursor.getString(cursor.getColumnIndex(DbHelper.COLUMNS_NAME)));
+                cates.add(c);
+            }while (cursor.moveToNext());
+        }
+        return cates;
     }
 
     /*
@@ -50,16 +80,16 @@ public class DbManager {
     //支出表的Values
     private ContentValues ExContentValues(Expenses expenses) {
         ContentValues values = new ContentValues();
-        try {
-            values.put(DbHelper.COLUMN_NAME,expenses.getName());
-            values.put("ex_morning_money",expenses.getMorning_money().doubleValue());
-            values.put("ex_noon_money",expenses.getNoon_money().doubleValue());
-            values.put("ex_evening_money",expenses.getEvening_money().doubleValue());
-            values.put("notes",expenses.getNotes());
+        /*try {
+            values.put(DbHelper.COLUMNS_NAME,ExpensesActivity.getName());
+            values.put("ex_morning_money",ExpensesActivity.getMorning_money().doubleValue());
+            values.put("ex_noon_money",ExpensesActivity.getNoon_money().doubleValue());
+            values.put("ex_evening_money",ExpensesActivity.getEvening_money().doubleValue());
+            values.put("notes",ExpensesActivity.getNotes());
             values.put("ex_time",getCurrentTime());
         }catch (Exception e){
             e.printStackTrace();
-        };
+        };*/
         return values;
     }
 

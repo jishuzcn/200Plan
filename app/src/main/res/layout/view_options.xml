@@ -4,8 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center">
-    
+
     <LinearLayout
+        android:id="@+id/ll_ex"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
@@ -14,10 +15,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ecnomization"/>
+            android:text="记账本"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_pl"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
@@ -26,10 +29,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="expenses"/>
+            android:text="计划本"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
+        android:id="@+id/ll_aff"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
@@ -38,18 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="plan"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="280dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:background="@color/colorAccent"
-        android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="affair"/>
-    </LinearLayout>
+            android:text="记事本"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>-->
 </LinearLayout>

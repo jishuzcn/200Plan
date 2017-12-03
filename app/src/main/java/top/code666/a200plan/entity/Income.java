@@ -6,11 +6,11 @@ import android.os.Parcelable;
 import java.math.BigDecimal;
 
 /**
- * Created by code666 on 2017/11/20.
+ * Created by code666 on 2017/11/26.
  */
 
-//支出实体类
-public class Expenses implements Parcelable {
+//收入实体类
+public class Income implements Parcelable {
     private int id,cate;
     private String notes,times;
     private BigDecimal money;
@@ -69,10 +69,10 @@ public class Expenses implements Parcelable {
         dest.writeSerializable(this.money);
     }
 
-    public Expenses() {
+    public Income() {
     }
 
-    protected Expenses(Parcel in) {
+    protected Income(Parcel in) {
         this.id = in.readInt();
         this.cate = in.readInt();
         this.notes = in.readString();
@@ -80,21 +80,21 @@ public class Expenses implements Parcelable {
         this.money = (BigDecimal) in.readSerializable();
     }
 
-    public static final Creator<Expenses> CREATOR = new Creator<Expenses>() {
+    public static final Creator<Income> CREATOR = new Creator<Income>() {
         @Override
-        public Expenses createFromParcel(Parcel source) {
-            return new Expenses(source);
+        public Income createFromParcel(Parcel source) {
+            return new Income(source);
         }
 
         @Override
-        public Expenses[] newArray(int size) {
-            return new Expenses[size];
+        public Income[] newArray(int size) {
+            return new Income[size];
         }
     };
 
     @Override
     public String toString() {
-        return "ExpensesActivity{" +
+        return "Income{" +
                 "id=" + id +
                 ", cate=" + cate +
                 ", notes='" + notes + '\'' +

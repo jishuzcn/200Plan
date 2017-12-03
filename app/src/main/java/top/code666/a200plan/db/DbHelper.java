@@ -13,43 +13,64 @@ import com.orhanobut.logger.Logger;
 public class DbHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "200plan.db";
-    public static final String TABLE_EX = "expenses_table";
-    public static final String TABLE_EC = "economization_table";
-    public static final String TABLE_AFF = "affair_table";
-    public static final String TABLE_PL = "plan_table";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NAME = "name";
+    public static final String TABLE_EX = "expenses_table";//支出表
+//    public static final String TABLE_EC = "economization_table";
+//    public static final String TABLE_AFF = "affair_table";//事件表
+    public static final String TABLE_PL = "plan_table";//计划表
+    public static final String TABLE_IN = "income_table";//收入表
+    public static final String TABLE_PL_CP = "plan_cp_table";//计划完成情况表
+    public static final String TABLE_CATES = "cates_table";//类别表
+
+    public static final String COLUMNS_ID = "_id";
+    public static final String COLUMNS_NAME = "name";
     public static final String COLUMNS_CONTENT = "content";
+    public static final String COLUMNS_CATE = "cate";
+    public static final String COLUMNS_MONEY = "money";
+    public static final String COLUMNS_NOTES = "notes";
+    public static final String COLUMNS_TIME = "time";
+    public static final String COLUMNS_IMAGE = "imageSrc";
 
     //decimal(p,s)   p是指全部有几个数(digits)大小值，s是指小数点後有几位数
     private String CREATE_EX = "create table if not exists "+TABLE_EX+"("+
-            COLUMN_ID+" integer PRIMARY KEY autoincrement,"+
-            COLUMN_NAME+" varchar(100),"+
-            "ex_morning_money decimal(10,2)," +
-            "ex_noon_money decimal(10,2)," +
-            "ex_evening_money decimal(10,2)," +
-            "notes text," +
-            "ex_time text);";
-    private String CREATE_EC = "create table if not exists "+TABLE_EC+"(" +
+            COLUMNS_ID+" integer PRIMARY KEY autoincrement,"+
+            COLUMNS_CATE+" integer,"+
+            COLUMNS_MONEY+" decimal(10,2)," +
+            COLUMNS_NOTES+" text," +
+            COLUMNS_TIME+" text);";
+    private String CREATE_IN = "create table if not exists "+TABLE_IN+"("+
+            COLUMNS_ID+" integer PRIMARY KEY autoincrement,"+
+            COLUMNS_CATE+" integer,"+
+            COLUMNS_MONEY+" decimal(10,2)," +
+            COLUMNS_NOTES+" text," +
+            COLUMNS_TIME+" text);";
+    /*private String CREATE_EC = "create table if not exists "+TABLE_EC+"(" +
             COLUMN_ID+" integer primary key autoincrement," +
             "title varchar(100)," +
             "ec_money decimal(10,2)," +
-            "ec_time text);";
-    private String CREATE_AF = "create table if not exists "+TABLE_AFF+"(" +
-            COLUMN_ID+" integer primary key autoincrement," +
+            "ec_time text);";*/
+    /*private String CREATE_AF = "create table if not exists "+TABLE_AFF+"(" +
+            COLUMNS_ID+" integer primary key autoincrement," +
             COLUMNS_CONTENT+" text," +
-            "name varchar(100)," +
+            COLUMNS_NAME+" varchar(100)," +
             "tag varchar(100)," +
-            "pb_time text);";
+            "pb_time text);";*/
     private String CREATE_PL = "create table if not exists "+TABLE_PL+"(" +
-            COLUMN_ID+" integer primary key autoincrement," +
-            COLUMN_NAME+" varchar(100)," +
+            COLUMNS_ID+" integer primary key autoincrement," +
+            COLUMNS_NAME+" varchar(100)," +
             COLUMNS_CONTENT+" text," +
             "pb_time text," +
             "pl_time text," +
             "cp_situation text);"; //cp_situation 当前完成状态 | pl_time 预计完成时间 | pb_time 发布时间
+    private String CREATE_PL_CP = "create table if not exists "+TABLE_PL_CP+"("+
+            COLUMNS_ID+" integer primary key autoincrement," +
+            COLUMNS_CONTENT+" text," +
+            COLUMNS_TIME+" text);";
+    private String CREATE_CA = "create table if not exists "+TABLE_CATES+"(" +
+            COLUMNS_ID+" integer primary key autoincrement," +
+            COLUMNS_IMAGE+" text,"+
+            COLUMNS_NAME+" varchar(100));";
 
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
 
     public DbHelper(Context context) {
@@ -60,9 +81,11 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Logger.d("onCreate");
         db.execSQL(CREATE_EX);
-        db.execSQL(CREATE_EC);
-        db.execSQL(CREATE_AF);
         db.execSQL(CREATE_PL);
+//        db.execSQL(CREATE_AF);
+        db.execSQL(CREATE_CA);
+        db.execSQL(CREATE_IN);
+        db.execSQL(CREATE_PL_CP);
     }
 
     @Override
@@ -71,9 +94,11 @@ public class DbHelper extends SQLiteOpenHelper {
         Logger.e("oldVersion:"+oldVersion);
         if(VERSION>oldVersion){
             db.execSQL("drop table if exists "+TABLE_EX);
-            db.execSQL("drop table if exists "+TABLE_EC);
             db.execSQL("drop table if exists "+TABLE_PL);
-            db.execSQL("drop table if exists "+TABLE_AFF);
+//            db.execSQL("drop table if exists "+TABLE_AFF);
+            db.execSQL("drop table if exists "+TABLE_CATES);
+            db.execSQL("drop table if exists "+TABLE_IN);
+            db.execSQL("drop table if exists "+TABLE_PL_CP);
             onCreate(db);
         }
     }

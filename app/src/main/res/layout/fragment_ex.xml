@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+    <LinearLayout
+        android:id="@+id/ex_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="@color/colorAccent">
+        <TextView
+            android:id="@+id/ex_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="脚步从未停止过"
+            android:textColor="@color/colorDialogTv"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@drawable/boder"
+        android:layout_below="@id/ex_title">
+        <FrameLayout
+            android:id="@+id/ex_fl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center" >
+            <!-- android:inputType="number" -->
+            <EditText
+                android:id="@+id/ex_thing_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:maxLength="20"
+                android:paddingLeft="55dp"
+                android:hint="支出事项"
+                android:background="@drawable/bg_edittext_tm">
+            </EditText>
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="21dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/flag"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ex_morning_fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_below="@id/ex_fl">
+            <EditText
+                android:id="@+id/ex_mornig_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:maxLength="20"
+                android:paddingLeft="55dp"
+                android:hint="早上money"
+                android:background="@drawable/bg_edittext_tm">
+            </EditText>
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="21dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/morning"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ex_noon_fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_below="@id/ex_morning_fl">
+            <EditText
+                android:id="@+id/ex_noon_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:maxLength="20"
+                android:paddingLeft="55dp"
+                android:hint="中午money"
+                android:background="@drawable/bg_edittext_tm">
+            </EditText>
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="21dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/noon"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ex_evening_fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_below="@id/ex_noon_fl">
+            <EditText
+                android:id="@+id/ex_evening_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:maxLength="20"
+                android:paddingLeft="55dp"
+                android:hint="晚上money"
+                android:background="@drawable/bg_edittext_tm">
+            </EditText>
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="21dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/evening"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ex_note_fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_below="@id/ex_evening_fl">
+            <EditText
+                android:id="@+id/ex_note_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:maxLength="20"
+                android:paddingLeft="55dp"
+                android:hint="注释"
+                android:background="@drawable/bg_edittext_tm">
+            </EditText>
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="21dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/information"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/ec_selected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ex_note_fl"
+            android:layout_marginTop="8dp"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/ex_cancel_action"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="38dp"
+                android:layout_marginStart="38dp"
+                android:background="@android:color/white"
+                android:src="@mipmap/cancel" />
+            <ImageButton
+                android:id="@+id/ex_ok_action"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="38dp"
+                android:layout_marginEnd="38dp"
+                android:background="@android:color/white"
+                android:src="@mipmap/checked"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

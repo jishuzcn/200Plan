@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item
+        <!--<item
             android:id="@+id/save_item"
             android:title="省"
-            android:icon="@mipmap/trade"/>
+            android:icon="@mipmap/trade"/>-->
         <item
             android:id="@+id/expenses_item"
-            android:title="支出"
+            android:title="支出报表"
             android:icon="@mipmap/data"/>
         <item
             android:id="@+id/plan_item"
-            android:title="计划"
+            android:title="历史计划"
             android:icon="@mipmap/lights" />
-        <item
+        <!--<item
             android:id="@+id/affair_item"
             android:title="事件"
-            android:icon="@mipmap/edit"/>
+            android:icon="@mipmap/edit"/>-->
         <item
             android:id="@+id/setting_item"
             android:title="设置"
