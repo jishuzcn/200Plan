@@ -48,6 +48,7 @@
                 android:gravity="center_horizontal">
 
                 <TextView
+                    android:id="@+id/home_ex_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1234.00"
@@ -67,6 +68,7 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
                 <TextView
+                    android:id="@+id/home_in_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2413.03"

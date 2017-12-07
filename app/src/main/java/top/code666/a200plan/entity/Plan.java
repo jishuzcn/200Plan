@@ -3,13 +3,16 @@ package top.code666.a200plan.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.sql.Timestamp;
+
 /**
  * Created by code666 on 2017/11/20.
  */
 
 public class Plan implements Parcelable {
     private int id;
-    private String name,content,pl_time,pb_time,situation;
+    private String name,content,situation;
+    private Timestamp pl_time,pb_time;
 
     public int getId() {
         return id;
@@ -35,28 +38,28 @@ public class Plan implements Parcelable {
         this.content = content;
     }
 
-    public String getPl_time() {
-        return pl_time;
-    }
-
-    public void setPl_time(String pl_time) {
-        this.pl_time = pl_time;
-    }
-
-    public String getPb_time() {
-        return pb_time;
-    }
-
-    public void setPb_time(String pb_time) {
-        this.pb_time = pb_time;
-    }
-
     public String getSituation() {
         return situation;
     }
 
     public void setSituation(String situation) {
         this.situation = situation;
+    }
+
+    public Timestamp getPl_time() {
+        return pl_time;
+    }
+
+    public void setPl_time(Timestamp pl_time) {
+        this.pl_time = pl_time;
+    }
+
+    public Timestamp getPb_time() {
+        return pb_time;
+    }
+
+    public void setPb_time(Timestamp pb_time) {
+        this.pb_time = pb_time;
     }
 
     @Override
@@ -69,9 +72,9 @@ public class Plan implements Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.name);
         dest.writeString(this.content);
-        dest.writeString(this.pl_time);
-        dest.writeString(this.pb_time);
         dest.writeString(this.situation);
+        dest.writeSerializable(this.pl_time);
+        dest.writeSerializable(this.pb_time);
     }
 
     public Plan() {
@@ -81,12 +84,12 @@ public class Plan implements Parcelable {
         this.id = in.readInt();
         this.name = in.readString();
         this.content = in.readString();
-        this.pl_time = in.readString();
-        this.pb_time = in.readString();
         this.situation = in.readString();
+        this.pl_time = (Timestamp) in.readSerializable();
+        this.pb_time = (Timestamp) in.readSerializable();
     }
 
-    public static final Parcelable.Creator<Plan> CREATOR = new Parcelable.Creator<Plan>() {
+    public static final Creator<Plan> CREATOR = new Creator<Plan>() {
         @Override
         public Plan createFromParcel(Parcel source) {
             return new Plan(source);
@@ -104,9 +107,9 @@ public class Plan implements Parcelable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", content='" + content + '\'' +
-                ", pl_time='" + pl_time + '\'' +
-                ", pb_time='" + pb_time + '\'' +
                 ", situation='" + situation + '\'' +
+                ", pl_time=" + pl_time +
+                ", pb_time=" + pb_time +
                 '}';
     }
 }

@@ -91,7 +91,7 @@
             android:layout_height="26dp"
             android:layout_toRightOf="@id/ex_edit_ib"
             android:layout_toEndOf="@id/ex_edit_ib"
-            android:src="@mipmap/shop"
+            android:src="@mipmap/cook"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
             android:layout_centerVertical="true"/>
@@ -146,25 +146,29 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:padding="@dimen/item_offset"/>
+
     <LinearLayout
         android:id="@+id/ex_edit_ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:visibility="gone">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@drawable/line"
-            android:layout_marginBottom="2dp"/>
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/line" />
+
         <EditText
             android:id="@+id/ex_editor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@null"
             android:hint="请输入备注"
-            android:textSize="14sp"
-            android:paddingLeft="10dp"/>
+            android:gravity="left|top"
+            android:paddingLeft="10dp"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

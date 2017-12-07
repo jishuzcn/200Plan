@@ -4,16 +4,34 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * Created by code666 on 2017/11/20.
  */
 
-//支出实体类
+//支出实体类 -----收入也是同一个
 public class Expenses implements Parcelable {
-    private int id,cate;
-    private String notes,times;
-    private BigDecimal money;
+    private int id,cate,type;
+    private String notes;
+    private double money;
+    private Timestamp times;
+
+    public Expenses(int cate,String notes,String times,Double money,int type) {
+        this.cate = cate;
+        this.notes = notes;
+        this.times = Timestamp.valueOf(times);
+        this.money = money;
+        this.type = type;
+    }
+
+    public Expenses(int cate,String notes,Timestamp times,Double money,int type) {
+        this.cate = cate;
+        this.notes = notes;
+        this.times = times;
+        this.money = money;
+        this.type = type;
+    }
 
     public int getId() {
         return id;
@@ -31,6 +49,14 @@ public class Expenses implements Parcelable {
         this.cate = cate;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public String getNotes() {
         return notes;
     }
@@ -39,20 +65,20 @@ public class Expenses implements Parcelable {
         this.notes = notes;
     }
 
-    public String getTimes() {
-        return times;
-    }
-
-    public void setTimes(String times) {
-        this.times = times;
-    }
-
-    public BigDecimal getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public void setMoney(BigDecimal money) {
+    public void setMoney(double money) {
         this.money = money;
+    }
+
+    public Timestamp getTimes() {
+        return times;
+    }
+
+    public void setTimes(Timestamp times) {
+        this.times = times;
     }
 
     @Override
@@ -64,20 +90,19 @@ public class Expenses implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeInt(this.cate);
+        dest.writeInt(this.type);
         dest.writeString(this.notes);
-        dest.writeString(this.times);
-        dest.writeSerializable(this.money);
-    }
-
-    public Expenses() {
+        dest.writeDouble(this.money);
+        dest.writeSerializable(this.times);
     }
 
     protected Expenses(Parcel in) {
         this.id = in.readInt();
         this.cate = in.readInt();
+        this.type = in.readInt();
         this.notes = in.readString();
-        this.times = in.readString();
-        this.money = (BigDecimal) in.readSerializable();
+        this.money = in.readDouble();
+        this.times = (Timestamp) in.readSerializable();
     }
 
     public static final Creator<Expenses> CREATOR = new Creator<Expenses>() {
@@ -94,12 +119,13 @@ public class Expenses implements Parcelable {
 
     @Override
     public String toString() {
-        return "ExpensesActivity{" +
+        return "Expenses{" +
                 "id=" + id +
                 ", cate=" + cate +
+                ", type=" + type +
                 ", notes='" + notes + '\'' +
-                ", times='" + times + '\'' +
                 ", money=" + money +
+                ", times=" + times +
                 '}';
     }
 }

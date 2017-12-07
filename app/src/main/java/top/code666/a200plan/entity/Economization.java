@@ -10,6 +10,7 @@ import java.math.BigDecimal;
  */
 
 //第二次更改后 无用的实体类
+/*
 public class Economization implements Parcelable {
     private int id;
     private String title,time;
@@ -92,3 +93,4 @@ public class Economization implements Parcelable {
                 '}';
     }
 }
+*/

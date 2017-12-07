@@ -4,16 +4,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * Created by code666 on 2017/11/26.
  */
 
-//收入实体类
+//收入实体类 ---  已废弃
+/*
 public class Income implements Parcelable {
     private int id,cate;
-    private String notes,times;
+    private String notes;
     private BigDecimal money;
+    private Timestamp times;
+
+    public Income(int cate,String notes,Timestamp times,BigDecimal money) {
+        this.cate = cate;
+        this.notes = notes;
+        this.times = times;
+        this.money = money;
+    }
 
     public int getId() {
         return id;
@@ -39,20 +49,20 @@ public class Income implements Parcelable {
         this.notes = notes;
     }
 
-    public String getTimes() {
-        return times;
-    }
-
-    public void setTimes(String times) {
-        this.times = times;
-    }
-
     public BigDecimal getMoney() {
         return money;
     }
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public Timestamp getTimes() {
+        return times;
+    }
+
+    public void setTimes(Timestamp times) {
+        this.times = times;
     }
 
     @Override
@@ -65,19 +75,16 @@ public class Income implements Parcelable {
         dest.writeInt(this.id);
         dest.writeInt(this.cate);
         dest.writeString(this.notes);
-        dest.writeString(this.times);
         dest.writeSerializable(this.money);
-    }
-
-    public Income() {
+        dest.writeSerializable(this.times);
     }
 
     protected Income(Parcel in) {
         this.id = in.readInt();
         this.cate = in.readInt();
         this.notes = in.readString();
-        this.times = in.readString();
         this.money = (BigDecimal) in.readSerializable();
+        this.times = (Timestamp) in.readSerializable();
     }
 
     public static final Creator<Income> CREATOR = new Creator<Income>() {
@@ -98,8 +105,9 @@ public class Income implements Parcelable {
                 "id=" + id +
                 ", cate=" + cate +
                 ", notes='" + notes + '\'' +
-                ", times='" + times + '\'' +
                 ", money=" + money +
+                ", times=" + times +
                 '}';
     }
 }
+*/

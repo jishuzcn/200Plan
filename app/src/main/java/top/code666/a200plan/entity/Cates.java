@@ -10,16 +10,13 @@ import android.os.Parcelable;
 //类别实体类
 public class Cates implements Parcelable {
     private int id,imageSrc;
-    private String name;//分类名称和图片地址
+    private String name,cate;//分类名称和图片地址
 
-    public Cates(){
-
-    }
-
-    public Cates(int id,int imageSrc,String name) {
+    public Cates(int id,int imageSrc,String name,String cate) {
         this.id = id;
         this.imageSrc = imageSrc;
         this.name = name;
+        this.cate = cate;
     }
 
     public int getId() {
@@ -46,6 +43,14 @@ public class Cates implements Parcelable {
         this.name = name;
     }
 
+    public String getCate() {
+        return cate;
+    }
+
+    public void setCate(String cate) {
+        this.cate = cate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -56,12 +61,17 @@ public class Cates implements Parcelable {
         dest.writeInt(this.id);
         dest.writeInt(this.imageSrc);
         dest.writeString(this.name);
+        dest.writeString(this.cate);
+    }
+
+    public Cates() {
     }
 
     protected Cates(Parcel in) {
         this.id = in.readInt();
         this.imageSrc = in.readInt();
         this.name = in.readString();
+        this.cate = in.readString();
     }
 
     public static final Creator<Cates> CREATOR = new Creator<Cates>() {
@@ -82,6 +92,7 @@ public class Cates implements Parcelable {
                 "id=" + id +
                 ", imageSrc=" + imageSrc +
                 ", name='" + name + '\'' +
+                ", cate='" + cate + '\'' +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package top.code666.a200plan.activity;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,8 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.qap.ctimelineview.TimelineViewAdapter;
 
@@ -26,11 +30,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import top.code666.a200plan.R;
+import top.code666.a200plan.db.DbManager;
+import top.code666.a200plan.entity.Expenses;
 import top.code666.a200plan.entity.TimelineRow;
+import top.code666.a200plan.utils.L;
+import top.code666.a200plan.utils.Tools;
 import top.code666.a200plan.view.OptionsDialog;
 
 
@@ -41,95 +50,72 @@ public class HomeActivity extends BaseActivity {
     private NavigationView navigationView;
     private FloatingActionButton fab;
     private ListView timeline;
+    private TextView ex_count, in_count;
 
     private OptionsDialog mOptionsDialog;
     private ArrayList<TimelineRow> timelineRowsList = new ArrayList<>();
-    ArrayAdapter<TimelineRow> myAdapter;
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private ArrayAdapter<TimelineRow> myAdapter;
+    private ArrayList<Expenses> datas;
+    private DbManager dbManager = DbManager.getInstance(this);
+
+    private int mStartIndex = 0,mMaxCount = 8;
+    private int mTotalCount = -1;// 数据总数
+    private Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if (mTotalCount == -1) mTotalCount = dbManager.getExCount();
         initView();
-        fab.setOnClickListener(new View.OnClickListener() {
+        initData();
+        //创建时间轴适配器
+        myAdapter = new top.code666.a200plan.adapter.TimelineViewAdapter(this, 0, timelineRowsList,
+                false);
+        //listView与时间轴绑定
+        timeline.setAdapter(myAdapter);
+        timeline.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onClick(View view) {
-                if(mOptionsDialog == null){
-                    mOptionsDialog = new OptionsDialog(HomeActivity.this,getFragmentManager());
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == SCROLL_STATE_IDLE){
+                    int position = timeline.getLastVisiblePosition();
+                    // 如果屏幕上可见的最后一项是当前适配器数据源的最后一项，
+                    // 并且数据还没有加载完，就加载下一批数据。
+                    if (position != mTotalCount - 1) {
+                        // 加载下一批数据
+                        if(mStartIndex <= mTotalCount) mStartIndex += mMaxCount;
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                initData();
+                                myAdapter.notifyDataSetChanged();
+                            }
+                        },500);
+                    } else if (position == mTotalCount -1) {
+                        Toast.makeText(HomeActivity.this, "没有更多数据了", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                Animation animation = AnimationUtils.loadAnimation(HomeActivity.this,R.anim.rotate);
-                fab.startAnimation(animation);
-//                mOptionsDialog.setShowAlpha(0.25f);
-                mOptionsDialog.showAtLocation(view, Gravity.CENTER,0,0);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
             }
         });
-        //Test 添加随机行到list
-        for (int i = 0;i<15;i++){
-            timelineRowsList.add(createRandomTimelineRow(i));
-        }
-        //Create the Timeline Adapter
-        ArrayAdapter<TimelineRow> myAdapter = new top.code666.a200plan.adapter.TimelineViewAdapter(this,0,timelineRowsList,
-                false);
-        // Get the ListView and Bind it with the Timeline Adapter
-        timeline.setAdapter(myAdapter);
     }
 
-    //Method to create new Timeline Row
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private TimelineRow createRandomTimelineRow(int id) {
-
-        // Create new timeline row (pass your Id)
-        TimelineRow myRow = new TimelineRow(id);
-
-        //to set the row Date (optional)
-        myRow.setDate(getRandomDate());
-        //to set the row Title (optional)
-        myRow.setTitle("Title " + id);
-        //to set the row Description (optional)
-        myRow.setDescription("Description " + id);
-        //to set the row bitmap image (optional)
-        myRow.setImage(BitmapFactory.decodeResource(getResources(), R.mipmap.trip));
-        //to set row Below Line Color (optional)
-        myRow.setBellowLineColor(getResources().getColor(R.color.colorPrimaryDark));
-        //to set row Below Line Size in dp (optional)
-        myRow.setBellowLineSize(3);
-        //to set row Image Size in dp (optional)
-        myRow.setImageSize(35);
-        //to set background color of the row image (optional)
-        myRow.setBackgroundColor(getResources().getColor(R.color.home_lv_bgColor));
-        //to set the Background Size of the row image in dp (optional)
-        myRow.setBackgroundSize(35);
-        //to set row Date text color (optional)
-        myRow.setDateColor(getResources().getColor(R.color.homeDateColor));
-        //to set row Title text color (optional)
-        myRow.setTitleColor(getResources().getColor(R.color.homeTitleColor));
-        //to set row Description text color (optional)
-        myRow.setDescriptionColor(getResources().getColor(R.color.homeDescriptionColor));
-
-        return myRow;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public Date getRandomDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date startDate = null;
-        Date endDate = new Date();
-        try {
-            startDate = sdf.parse("26/11/2017 00:00:00");
-//            long random = ThreadLocalRandom.current().nextLong(startDate.getTime(), endDate.getTime());
-            long random = startDate.getTime();
-            endDate = new Date(random);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+    private void initData() {
+        datas = dbManager.getLineData(mStartIndex,mMaxCount);
+        Iterator<Expenses> it = datas.iterator();
+        while (it.hasNext()){
+            timelineRowsList.add(createlineRow(it.next()));
         }
-        return endDate;
     }
 
     private void initToolbar() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.mipmap.category);
         }
@@ -142,18 +128,35 @@ public class HomeActivity extends BaseActivity {
         navigationView = findViewById(R.id.nav_view);
         fab = findViewById(R.id.idActionBar);
         timeline = findViewById(R.id.timeline_lv);
+        ex_count = findViewById(R.id.home_ex_count);
+        in_count = findViewById(R.id.home_in_count);
+
+        ex_count.setText("-" + String.valueOf(dbManager.ExCountForMonth(1)));
+        in_count.setText("+" + String.valueOf(dbManager.ExCountForMonth(2)));
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOptionsDialog == null) {
+                    mOptionsDialog = new OptionsDialog(HomeActivity.this, getFragmentManager());
+                }
+                Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.rotate);
+                fab.startAnimation(animation);
+                mOptionsDialog.showAtLocation(view, Gravity.CENTER, 0, 0);
+            }
+        });
         initToolbar();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar,menu);
+        getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
@@ -163,5 +166,31 @@ public class HomeActivity extends BaseActivity {
                 break;
         }
         return true;
+    }
+
+    private TimelineRow createlineRow(Expenses expenses) {
+        //创建一行新的时间轴
+        TimelineRow myRow = new TimelineRow(expenses.getId());
+        //设置时间轴相关数据
+        myRow.setDate(Tools.getStringTime(expenses.getTimes()));
+
+        if(expenses.getType() == 1){
+            myRow.setTitle(dbManager.getNameById(expenses.getCate())+" -"+String.valueOf(expenses.getMoney()));
+        }else if(expenses.getType() == 2){
+            myRow.setTitle("+"+String.valueOf(expenses.getMoney()));
+        }
+
+        myRow.setDescription(expenses.getNotes());
+        myRow.setImage(BitmapFactory.decodeResource(getResources(), dbManager.getImgById(expenses.getCate())));
+        myRow.setBellowLineColor(getResources().getColor(R.color.colorPrimaryDark));
+        myRow.setBellowLineSize(3);
+        myRow.setImageSize(35);
+        myRow.setBackgroundColor(getResources().getColor(R.color.home_lv_bgColor));
+        myRow.setBackgroundSize(35);
+        myRow.setDateColor(getResources().getColor(R.color.homeDateColor));
+        myRow.setTitleColor(getResources().getColor(R.color.homeTitleColor));
+        myRow.setDescriptionColor(getResources().getColor(R.color.homeDescriptionColor));
+
+        return myRow;
     }
 }
