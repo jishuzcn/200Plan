@@ -18,7 +18,7 @@ import top.code666.a200plan.R;
 import top.code666.a200plan.utils.ActivityCollector;
 import top.code666.a200plan.utils.DialogTime;
 
-public class PlanActivity extends AppCompatActivity implements View.OnClickListener,OnDateSetListener{
+public class PlanActivity extends BaseActivity implements View.OnClickListener,OnDateSetListener{
 
     private ImageButton back,ok;
     private LinearLayout pickTime;
@@ -60,8 +60,8 @@ public class PlanActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.plan_top_ok:
                 break;
             case R.id.plan_content_01:
-//                mDialogAll.show(getSupportFragmentManager(), "all");
-                new DialogTime(this,getSupportFragmentManager(),this).getDialog();
+                // mDialogAll.show(getSupportFragmentManager(), "all");
+                new DialogTime(this,getSupportFragmentManager(),this).getDialogForPlan();
                 break;
             default:
                 break;

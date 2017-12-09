@@ -3,6 +3,7 @@ package top.code666.a200plan.utils;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -43,5 +44,64 @@ public class Tools {
         SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
         long time = timestamp.getTime();
         return new Date(time);
+    }
+
+    /**
+     * 判断是否为今天(效率比较高)
+     *
+     * @param day 传入的date类型信息
+     * @return true今天 false不是
+     * @throws ParseException
+     */
+    public static boolean IsToday(Date day){
+        Calendar param = Calendar.getInstance();
+        param.setTime(day);
+        //今天
+        Calendar now = Calendar.getInstance();
+        Date today = new Date(System.currentTimeMillis());
+        now.setTime(today);
+        if(param.get(Calendar.YEAR) == now.get(Calendar.YEAR)){
+            int diff = param.get(Calendar.DAY_OF_YEAR) - now.
+                    get(Calendar.DAY_OF_YEAR);
+            if(diff == 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean IsYesterday(Date day){
+        Calendar param = Calendar.getInstance();
+        param.setTime(day);
+        //今天
+        Calendar now = Calendar.getInstance();
+        Date today = new Date(System.currentTimeMillis());
+        now.setTime(today);
+        if(param.get(Calendar.YEAR) == now.get(Calendar.YEAR)){
+            int diff = param.get(Calendar.DAY_OF_YEAR) - now.
+                    get(Calendar.DAY_OF_YEAR);
+            if(diff == -1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //是否为前天
+    public static boolean IsTheDayBefor(Date day){
+        Calendar param = Calendar.getInstance();
+        param.setTime(day);
+        //今天
+        Calendar now = Calendar.getInstance();
+        Date today = new Date(System.currentTimeMillis());
+        now.setTime(today);
+        if(param.get(Calendar.YEAR) == now.get(Calendar.YEAR)){
+            int diff = param.get(Calendar.DAY_OF_YEAR) - now.
+                    get(Calendar.DAY_OF_YEAR);
+            if(diff == -2){
+                return true;
+            }
+        }
+        return false;
     }
 }

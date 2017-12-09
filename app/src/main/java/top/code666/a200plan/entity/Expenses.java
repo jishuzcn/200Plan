@@ -2,8 +2,6 @@ package top.code666.a200plan.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
@@ -26,6 +24,15 @@ public class Expenses implements Parcelable {
     }
 
     public Expenses(int cate,String notes,Timestamp times,Double money,int type) {
+        this.cate = cate;
+        this.notes = notes;
+        this.times = times;
+        this.money = money;
+        this.type = type;
+    }
+
+    public Expenses(int id,int cate,String notes,Timestamp times,Double money,int type) {
+        this.id = id;
         this.cate = cate;
         this.notes = notes;
         this.times = times;

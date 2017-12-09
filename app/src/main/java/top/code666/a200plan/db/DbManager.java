@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import top.code666.a200plan.entity.Cates;
@@ -56,6 +57,19 @@ public class DbManager {
     public int getExCount() {
         Cursor cursor = db.rawQuery("select count(*) from " + DbHelper.TABLE_EX_IN, null);
         if (cursor.moveToFirst()) {
+            return cursor.getInt(0);
+        }
+        return 0;
+    }
+
+    /*
+    * 得到Ex表id
+    */
+    public int getExId(Timestamp time){
+        String sql = "select "+DbHelper.COLUMNS_ID+" from "+DbHelper.TABLE_EX_IN+" where " +
+                ""+DbHelper.COLUMNS_TIME+" = ?";
+        Cursor cursor = db.rawQuery(sql,new String[]{time.toString()});
+        if (cursor.moveToFirst()){
             return cursor.getInt(0);
         }
         return 0;

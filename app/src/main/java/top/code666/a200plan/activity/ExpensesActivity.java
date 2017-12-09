@@ -39,7 +39,7 @@ import top.code666.a200plan.utils.Tools;
  * Created by code666 on 2017/11/28.
  */
 
-public class ExpensesActivity extends AppCompatActivity implements View.OnClickListener, OnDateSetListener {
+public class ExpensesActivity extends BaseActivity implements View.OnClickListener, OnDateSetListener {
 
     private Button btn1, btn2;       //支出收入按钮
     private ImageButton back, daily, editso, ok;      //返回、日历、备注、确认
@@ -172,8 +172,7 @@ public class ExpensesActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.ex_edit_ib:
-                long startTime = System.currentTimeMillis() + (3600 * 24 * 30 * 1000);
-                new DialogTime(this, getSupportFragmentManager(), this, startTime).getDialog();
+                new DialogTime(this, getSupportFragmentManager(), this).getDialogForEx();
                 break;
             case R.id.ex_editso:
                 edit_ll.setVisibility(View.VISIBLE);
@@ -199,7 +198,11 @@ public class ExpensesActivity extends AppCompatActivity implements View.OnClickL
                         case "支出":
                             if (dbManager.insertExTable(new Expenses(cate, editor.getText().toString(),
                                     timestamp, Double.valueOf(num),1))) {
-                                startActivity(new Intent(this,HomeActivity.class));
+                                Intent intent = new Intent(this,HomeActivity.class);
+                                /* 不知为啥传过去为空 debug这里没问题
+                                intent.putExtra("ok",new Expenses(dbManager.getExId(timestamp),cate, editor.getText().toString(),
+                                        timestamp, Double.valueOf(num),1));*/
+                                startActivity(intent);
                                 finish();
                                 Toast.makeText(this, "添加成功", Toast.LENGTH_LONG).show();
                             } else {
@@ -209,7 +212,8 @@ public class ExpensesActivity extends AppCompatActivity implements View.OnClickL
                         case "收入":
                             if (dbManager.insertExTable(new Expenses(cate, editor.getText().toString(),
                                     timestamp, Double.valueOf(num),2))) {
-                                startActivity(new Intent(this,HomeActivity.class));
+                                Intent intent = new Intent(this,HomeActivity.class);
+                                startActivity(intent);
                                 finish();
                                 Toast.makeText(this, "添加成功", Toast.LENGTH_LONG).show();
                             } else {

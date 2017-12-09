@@ -19,6 +19,7 @@ import java.util.List;
 
 import top.code666.a200plan.R;
 import top.code666.a200plan.entity.TimelineRow;
+import top.code666.a200plan.utils.Tools;
 
 /**
  * Created by code666 on 2017/11/27.
@@ -156,9 +157,9 @@ public class TimelineViewAdapter extends ArrayAdapter<TimelineRow> {
         long minutes = (diff / 60) % 60;
         long seconds = diff % 60;
 
-        if(seconds > 0 && days <= 1L) dateText.append("24h内");
-        if(days >1L && days <= 2L) dateText.append("一天前");
-        if(days >2L && days <= 3L) dateText.append("两天前");
+        if(Tools.IsToday(date)) dateText.append("今天");
+        if(Tools.IsYesterday(date)) dateText.append("昨天");
+        if(Tools.IsTheDayBefor(date)) dateText.append("前天");
         if(days > 3L && months <1L) dateText.append(sf.format(date));
         if(months >=1L) dateText.append(sdf.format(date));
 

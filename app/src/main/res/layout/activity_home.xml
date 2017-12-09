@@ -18,7 +18,21 @@
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:titleTextColor="@color/colorBlack"
-            app:titleTextAppearance="@style/Toolbar.TitleText"/>
+            app:titleTextAppearance="@style/Toolbar.TitleText">
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:text="200plan"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:singleLine="true" />
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/idActionBar"
