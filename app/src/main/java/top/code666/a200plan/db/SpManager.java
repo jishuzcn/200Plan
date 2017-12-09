@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 /**
  * Created by code666 on 2017/12/8.
  * SharedPreferences相关操作
+ * 
  */
 public class SpManager {
     private Context mContext;
