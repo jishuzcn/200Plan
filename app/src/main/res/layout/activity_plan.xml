@@ -70,7 +70,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
-                android:text="2017-12-2 12:00 (明天)"
+                android:text="2017-12-2 12:00:00"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -83,6 +83,7 @@
             android:id="@+id/plan_content_et"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:textSize="16sp"
             android:gravity="start|top"
             android:background="@null" />
     </LinearLayout>
@@ -108,4 +109,77 @@
         android:layout_below="@id/plan_500_tv"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"/>
+
+    <!--<RelativeLayout
+        android:id="@+id/plan_remind_ll"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/plan_500_tv"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_plan_remind">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提醒"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/plan_remind_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不提醒"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/plan_remind_img"
+            android:layout_toStartOf="@id/plan_remind_img"/>
+        <ImageView
+            android:id="@+id/plan_remind_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/more"/>
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/plan_repeat_ll"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/plan_remind_ll"
+        android:background="@drawable/bg_plan_remind">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重复"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/plan_repeat_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="无"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/plan_repeat_img"
+            android:layout_toStartOf="@id/plan_repeat_img"/>
+        <ImageView
+            android:id="@+id/plan_repeat_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/more"/>
+    </RelativeLayout>-->
 </RelativeLayout>

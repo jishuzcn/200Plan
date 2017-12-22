@@ -3,13 +3,14 @@ package top.code666.a200plan.utils;
 import android.app.Activity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by code666 on 2017/11/19.
  */
 
 public class ActivityCollector {
-    private static ArrayList<Activity> activities = new ArrayList<>();
+    private static List<Activity> activities = new ArrayList<Activity>();
 
     public static void addActivity(Activity activity){
         activities.add(activity);
@@ -21,7 +22,7 @@ public class ActivityCollector {
 
     public static void finishAll(){
         for (Activity activity :activities){
-            if(activity.isFinishing()){
+            if(!activity.isFinishing()){
                 activity.finish();
             }
         }

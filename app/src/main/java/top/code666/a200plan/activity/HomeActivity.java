@@ -1,16 +1,25 @@
 package top.code666.a200plan.activity;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +27,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +44,12 @@ import top.code666.a200plan.db.DbManager;
 import top.code666.a200plan.db.SpManager;
 import top.code666.a200plan.entity.Expenses;
 import top.code666.a200plan.entity.TimelineRow;
+import top.code666.a200plan.utils.ActivityCollector;
+import top.code666.a200plan.utils.L;
 import top.code666.a200plan.utils.Tools;
 import top.code666.a200plan.view.OptionsDialog;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements OnNavigationItemSelectedListener, View.OnClickListener {
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -45,6 +60,13 @@ public class HomeActivity extends BaseActivity {
     private TextView ex_count, in_count;
     private OptionsDialog mOptionsDialog;
     private TextView toolbarTitle;
+    private EditText et1, et2;
+
+    //navigationView  for  headerView;
+    private ImageView headerImg;
+    private TextView headerTv1, headerTv2;
+    private ImageButton headerBtn;
+    private RelativeLayout headerBg;
 
     private ArrayList<TimelineRow> timelineRowsList = new ArrayList<>();
     private ArrayAdapter<TimelineRow> myAdapter;
@@ -62,24 +84,25 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ActivityCollector.addActivity(this);
         if (mTotalCount == -1) mTotalCount = dbManager.getExCount(); //等于Ex（支出收入）表的总数
 
         initView();//初始化视图
         initData();//初始化数据
 
         //标题栏文字是否改变
-        if(sp.IsTitleChange()){
+        if (sp.IsTitleChange()) {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    String homeTitiles[] = getResources().getStringArray(R.array.homeTitles);
-                    int id = (int) (Math.random()*(homeTitiles.length-1));
-                    toolbarTitle.setText(homeTitiles[id]);
+                    String homeTitles[] = getResources().getStringArray(R.array.homeTitles);
+                    int id = (int) (Math.random() * (homeTitles.length - 1));
+                    toolbarTitle.setText(homeTitles[id]);
                     handler.postDelayed(this, 30000);//10s
                 }
             };
             handler.postDelayed(runnable, 2000);
-        }else{
+        } else {
             toolbarTitle.setText(getResources().getString(R.string.app_name));
         }
 
@@ -116,17 +139,19 @@ public class HomeActivity extends BaseActivity {
         ex_count.setText("-" + String.valueOf(dbManager.ExCountForMonth(1)));
         in_count.setText("+" + String.valueOf(dbManager.ExCountForMonth(2)));
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mOptionsDialog == null) {
-                    mOptionsDialog = new OptionsDialog(HomeActivity.this, getFragmentManager());
-                }
-                Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.rotate);
-                fab.startAnimation(animation);
-                mOptionsDialog.showAtLocation(view, Gravity.CENTER, 0, 0);
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+        headerImg = view.findViewById(R.id.navHeader_img);
+        headerTv1 = view.findViewById(R.id.navHeader_tv1);
+        headerTv2 = view.findViewById(R.id.navHeader_tv2);
+        headerBtn = view.findViewById(R.id.navHeader_ib);
+        headerBg = view.findViewById(R.id.navHeader_bg);
+
+        headerTv1.setText(sp.getMyName());
+        headerTv2.setText(sp.getMyDes());
+
+        headerBtn.setOnClickListener(this);
+        fab.setOnClickListener(this);
 
         //创建时间轴适配器
         myAdapter = new top.code666.a200plan.adapter.TimelineViewAdapter(this, 0, timelineRowsList,
@@ -156,8 +181,11 @@ public class HomeActivity extends BaseActivity {
                         Toast.makeText(HomeActivity.this, "没有更多数据了", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }@Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {}
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
         });
 
         initToolbar();
@@ -176,6 +204,15 @@ public class HomeActivity extends BaseActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.item_info:
+                /*关于我---一个小小程序员，目前再找实习工作*/
+                Snackbar.make(getWindow().getDecorView().findViewById(R.id.drawerLayout),
+                        "关于我 --- 一个小小程序员，目前再找实习工作", Snackbar.LENGTH_INDEFINITE).setAction("明白了",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        }).show();
                 break;
             default:
                 break;
@@ -221,31 +258,142 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 
-    /*//加载界面UI的handler
-    private Handler UI = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-
-            }
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("提示");
+            builder.setMessage("你是否要退出应用？");
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // TODO Auto-generated method stub
+//                        new ActivityCollector().finishAll();
+                    ActivityCollector.finishAll();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // TODO Auto-generated method stub
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
         }
-    };*/
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.expenses_item:
+                startActivity(new Intent(HomeActivity.this, ReportActivity.class));
+                finish();
+                break;
+            case R.id.plan_item:
+                startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+                finish();
+                break;
+            case R.id.setting_item:
+                startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+                finish();
+                break;
+            case R.id.exit_item:
+                // TODO Auto-generated method stub
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("提示");
+                builder.setMessage("你确定要一键退出所有activity吗？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+//                        new ActivityCollector().finishAll();
+                        ActivityCollector.finishAll();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+                break;
+            default:
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @SuppressLint("NewApi")
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.idActionBar:
+                if (mOptionsDialog == null) {
+                    mOptionsDialog = new OptionsDialog(HomeActivity.this, getFragmentManager());
+                }
+                Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.rotate);
+                fab.startAnimation(animation);
+                mOptionsDialog.showAtLocation(v, Gravity.CENTER, 0, 0);
+                break;
+
+            case R.id.navHeader_ib:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                View view = LayoutInflater.from(this).inflate(R.layout.view_name, null);
+                et1 = view.findViewById(R.id.view_name_et1);
+                et2 = view.findViewById(R.id.view_name_et2);
+
+                builder.setTitle("修改名称和签名").setView(R.layout.view_name).setPositiveButton("确定", new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String s1 = et1.getText().toString();
+                                String s2 = et2.getText().toString();
+                                L.e(s1 + "--||--" + s2);
+                                if (!"".equals(s1)) {
+                                    sp.putSp("username", s1);
+                                }
+                                if (!"".equals(s2)) {
+                                    sp.putSp("describe", s2);
+                                }
+                                headerTv1.setText(sp.getMyName());
+                                headerTv2.setText(sp.getMyDes());
+                                Toast.makeText(HomeActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+                break;
+
+            default:
+                break;
+        }
+    }
 
     //Google推荐的handler写法
-    private static class MyHandler extends Handler{
+    private static class MyHandler extends Handler {
         private final WeakReference<HomeActivity> weakReference;
 
         private MyHandler(HomeActivity activity) {
-            weakReference = new WeakReference<HomeActivity>(activity);
+            weakReference = new WeakReference<>(activity);
         }
 
-        public void handleMessage(Message message){
+        public void handleMessage(Message message) {
             HomeActivity t = weakReference.get();
-            if (t != null){
-                switch (message.what){
+            if (t != null) {
+                switch (message.what) {
                     case 1: // 当Activity -- onRestart时重新获取界面数据
                         t.ex_count.setText("-" + String.valueOf(t.dbManager.ExCountForMonth(1)));
                         t.in_count.setText("+" + String.valueOf(t.dbManager.ExCountForMonth(2)));

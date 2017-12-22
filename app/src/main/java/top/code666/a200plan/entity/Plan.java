@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import java.sql.Timestamp;
 
+import top.code666.a200plan.utils.Tools;
+
 /**
  * Created by code666 on 2017/11/20.
  */
@@ -13,6 +15,18 @@ public class Plan implements Parcelable {
     private int id;
     private String name,content,situation;
     private Timestamp pl_time,pb_time;
+
+    public Plan(String content,Timestamp pl_time,Timestamp pb_time){
+        this.content = content;
+        this.pl_time = pl_time;
+        this.pb_time = pb_time;
+    }
+
+    public Plan(String content,String pl_time,String pb_time){
+        this.content = content;
+        this.pb_time = Tools.getStampTime(pb_time);
+        this.pl_time = Tools.getStampTime(pl_time);
+    }
 
     public int getId() {
         return id;

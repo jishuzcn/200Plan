@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/bg_history_adapter">
+    <RelativeLayout
+        android:id="@+id/adapter_history_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp">
+        <TextView
+            android:id="@+id/adapter_history_publish_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017-12-13 12:12:12"/>
+        <TextView
+            android:id="@+id/adapter_history_expect_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017年12月"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/adapter_history_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/adapter_history_title"
+        android:padding="5dp"
+        android:lines="3"
+        android:text="test"/>
+</RelativeLayout>

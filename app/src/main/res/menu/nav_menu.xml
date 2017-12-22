@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/group01">
         <!--<item
             android:id="@+id/save_item"
             android:title="省"
@@ -9,21 +9,25 @@
             android:id="@+id/expenses_item"
             android:title="支出报表"
             android:icon="@mipmap/data"/>
+    </group>
+    <group android:id="@+id/group02">
         <item
             android:id="@+id/plan_item"
             android:title="历史计划"
             android:icon="@mipmap/lights" />
+    </group>
         <!--<item
             android:id="@+id/affair_item"
             android:title="事件"
             android:icon="@mipmap/edit"/>-->
+    <group android:id="@+id/group03">
         <item
             android:id="@+id/setting_item"
             android:title="设置"
             android:icon="@mipmap/setting"/>
-        <item
-            android:id="@+id/exit_item"
-            android:title="退出"
-            android:icon="@mipmap/exit"/>
     </group>
+    <item
+        android:id="@+id/exit_item"
+        android:title="退出"
+        android:icon="@mipmap/exit"/>
 </menu>
